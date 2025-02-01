@@ -15,6 +15,12 @@
             tools:context=".Main"
             android:title="@string/coinAppBarName"
         />
+    <ListView
+            android:id="@+id/main_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ff5533"
+    />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

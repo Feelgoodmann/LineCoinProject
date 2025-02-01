@@ -17,7 +17,7 @@
     </fragment>
     <fragment
             android:id="@+id/SecondFragment"
-            android:name="com.example.linecoinproject.Coin"
+            android:name="com.example.linecoinproject.components.Coin"
             android:label="@string/second_fragment_label"
             tools:layout="@layout/fragment_second">
 
