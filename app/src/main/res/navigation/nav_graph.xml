@@ -7,9 +7,9 @@
 
     <fragment
             android:id="@+id/FirstFragment"
-            android:name="com.example.linecoinproject.FirstFragment"
+            android:name="com.example.linecoinproject.ToolBar"
             android:label="@string/first_fragment_label"
-            tools:layout="@layout/fragment_first">
+            tools:layout="@layout/toolbar">
 
         <action
                 android:id="@+id/action_FirstFragment_to_SecondFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
             android:id="@+id/SecondFragment"
-            android:name="com.example.linecoinproject.SecondFragment"
+            android:name="com.example.linecoinproject.Coin"
             android:label="@string/second_fragment_label"
             tools:layout="@layout/fragment_second">
 
