@@ -2,6 +2,8 @@ package com.example.linecoinproject
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
@@ -9,13 +11,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.ListView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.example.linecoinproject.api.SimpleApi
 import com.example.linecoinproject.databinding.MainBinding
+import com.google.gson.Gson
+import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.math.BigDecimal
 import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URL
@@ -39,6 +49,7 @@ class Main : AppCompatActivity() {
 
         val apiUrl = "https://api.coinranking.com/v2/coins"
         val response = StringBuilder()
+        val gson = Gson()
         try {
             val url: URL = URI.create(apiUrl).toURL()
             val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
@@ -57,6 +68,7 @@ class Main : AppCompatActivity() {
 
 
                 while (reader.readLine().also { line = it } != null) {
+                    println(line)
                     response.append(line)
                 }
 
@@ -73,24 +85,32 @@ class Main : AppCompatActivity() {
             e.printStackTrace()
 
         }
-        println("TWO STEP AHEAD ${response}")
-        listView.adapter = EachCoin(this)
+        var obj: String = JSONObject(response.toString()).getString("data")
+        obj = JSONObject(obj).getString("coins")
+        val objectList = gson.fromJson(obj, Array<Coin>::class.java).asList()
+        objectList.forEach {
+            println(it)
+        }
+        listView.adapter = EachCoin(this, objectList)
 
 
     }
-    private class EachCoin(context: Context): BaseAdapter(){
 
+    private class EachCoin(context: Context, objectList: List<Coin>) : BaseAdapter() {
         private val mContext: Context
-            init {
-                mContext = context
-            }
+        private val mObjectList: List<Coin>
+
+        init {
+            mContext = context
+            mObjectList = objectList
+        }
 
         override fun getCount(): Int {
-            return 10
+            return mObjectList.size
         }
 
         override fun getItem(p0: Int): Any {
-            return "TEST STRING"
+            return mObjectList.size
         }
 
         override fun getItemId(p0: Int): Long {
@@ -98,10 +118,62 @@ class Main : AppCompatActivity() {
         }
 
         @SuppressLint("ViewHolder")
-        override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
+        override fun getView(index: Int, view: View?, viewGroup: ViewGroup?): View {
+
             val layoutInflater = LayoutInflater.from(mContext)
-            val coin = layoutInflater.inflate(R.layout.coin, p2, false)
+            val coin = layoutInflater.inflate(R.layout.coin, viewGroup, false)
+            coin.setOnClickListener {
+                val openLinkIntent = Intent(Intent.ACTION_VIEW, Uri.parse(mObjectList[index].coinrankingUrl))
+                mContext.startActivity(openLinkIntent)
+            }
+
+            val coinIconStart = coin.findViewById<ImageView>(R.id.coinIconStart)
+            val coinIconEnd = coin.findViewById<ImageView>(R.id.coinIconEnd)
+
+
+            val coinName = coin.findViewById<TextView>(R.id.coinName)
+            coinName.text = mObjectList[index].symbol
+
+            val coinDetail = coin.findViewById<TextView>(R.id.coinDetail)
+            coinDetail.text = mObjectList[index].name
+
+            if((index + 1) % 5 == 0){
+                coinIconEnd.loadUrl(mObjectList[index].iconUrl)
+
+                coinName.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
+
+                coinDetail.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
+                coinDetail.text = mObjectList[index].coinrankingUrl
+            } else {
+                coinIconStart.loadUrl(mObjectList[index].iconUrl)
+            }
+
             return coin
         }
+
+        fun ImageView.loadUrl(url: String) {
+
+            val imageLoader = ImageLoader.Builder(this.context)
+                .componentRegistry { add(SvgDecoder(this@loadUrl.context)) }
+                .build()
+
+            val request = ImageRequest.Builder(this.context)
+                .data(url)
+                .target(this)
+                .build()
+
+            imageLoader.enqueue(request)
+        }
+
     }
+
+
+    data class Coin(
+        val symbol: String,
+        val name: String,
+        val iconUrl: String,
+        val coinrankingUrl: String,
+        val marketCap: Long,
+        val price: BigDecimal,
+    )
 }

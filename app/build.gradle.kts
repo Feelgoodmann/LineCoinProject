@@ -48,4 +48,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.google.code.gson:gson:2.12.1")
+    implementation("io.coil-kt:coil:1.2.0")
+    implementation("io.coil-kt:coil-svg:1.2.0")
 }

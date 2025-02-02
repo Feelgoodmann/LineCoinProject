@@ -8,14 +8,44 @@
 >
 
     <TextView
-            android:text="BitCoin"
-            android:layout_width="285dp"
-            android:layout_height="30dp" android:id="@+id/coinName" tools:layout_editor_absoluteY="7dp"
-            tools:layout_editor_absoluteX="81dp" android:textStyle="bold" android:textSize="18sp"/>
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:paddingStart="80dp"
+            android:paddingEnd="80dp"
+            android:paddingTop="5dp"
+            android:id="@+id/coinName"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            tools:ignore="MissingConstraints,RtlSymmetry"/>
     <TextView
-            android:text="BTC"
-            android:layout_width="285dp"
-            android:layout_height="30dp" android:id="@+id/coinDetail"
-            tools:layout_editor_absoluteX="81dp" app:layout_constraintTop_toBottomOf="@+id/coinName"
-            android:textSize="16sp"/>
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:paddingStart="80dp"
+            android:paddingEnd="80dp"
+            android:paddingTop="5dp"
+            android:id="@+id/coinDetail"
+            app:layout_constraintTop_toBottomOf="@+id/coinName"
+            android:textSize="14sp"
+            tools:ignore="RtlSymmetry"/>
+
+    <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp"
+            android:scaleType="fitCenter"
+            android:id="@+id/coinIconStart"
+            tools:ignore="MissingConstraints,RtlSymmetry"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"/>
+    <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="5dp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="right"
+            android:id="@+id/coinIconEnd"
+            tools:ignore="MissingConstraints,RtlHardcoded,RtlSymmetry"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

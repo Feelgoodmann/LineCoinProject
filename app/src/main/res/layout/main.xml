@@ -16,10 +16,11 @@
             android:title="@string/coinAppBarName"
         />
     <ListView
+            android:layout_marginTop="?attr/actionBarSize"
             android:id="@+id/main_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ff5533"
+            android:background="#ffffff"
     />
 
 
