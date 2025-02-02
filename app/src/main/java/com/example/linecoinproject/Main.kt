@@ -29,7 +29,20 @@ import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URL
 
-
+/*
+* Tanapat Chokruamchai
+* feelgood2545@hotmail.com
+* 061-9720088
+* REF:
+* Android Kotlin: Essentials to Creating a ListView (Ep 1)
+* Android Kotlin: ListView Custom XML Views for Rows (Ep 2)
+* https://gist.github.com/Da9el00/a29b4acca9dec698e18f88fca2eb8c96
+* https://github.com/google/gson
+* https://stackoverflow.com/questions/47823746/kotlin-convert-json-string-to-list-of-object-using-gson
+* https://stackoverflow.com/questions/71964976/load-svg-files-from-a-api-into-an-imageview-in-android-in-kotlin
+* (Coil)
+*
+* */
 class Main : AppCompatActivity() {
     private lateinit var binding: MainBinding
 
@@ -108,7 +121,7 @@ class Main : AppCompatActivity() {
         }
 
         override fun getItem(p0: Int): Any {
-            return mObjectList.size
+            return p0
         }
 
         override fun getItemId(p0: Int): Long {
