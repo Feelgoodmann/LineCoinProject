@@ -19,7 +19,6 @@ import androidx.appcompat.widget.Toolbar
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
-import com.example.linecoinproject.api.SimpleApi
 import com.example.linecoinproject.databinding.MainBinding
 import com.google.gson.Gson
 import org.json.JSONObject
@@ -33,7 +32,6 @@ import java.net.URL
 
 class Main : AppCompatActivity() {
     private lateinit var binding: MainBinding
-    private lateinit var simpleApi: SimpleApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -137,7 +135,7 @@ class Main : AppCompatActivity() {
             val coinDetail = coin.findViewById<TextView>(R.id.coinDetail)
             coinDetail.text = mObjectList[index].name
 
-            if((index + 1) % 5 == 0){
+            if ((index + 1) % 5 == 0) {
                 coinIconEnd.loadUrl(mObjectList[index].iconUrl)
 
                 coinName.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
@@ -153,20 +151,15 @@ class Main : AppCompatActivity() {
 
         fun ImageView.loadUrl(url: String) {
 
-            val imageLoader = ImageLoader.Builder(this.context)
-                .componentRegistry { add(SvgDecoder(this@loadUrl.context)) }
-                .build()
+            val imageLoader =
+                ImageLoader.Builder(this.context).componentRegistry { add(SvgDecoder(this@loadUrl.context)) }.build()
 
-            val request = ImageRequest.Builder(this.context)
-                .data(url)
-                .target(this)
-                .build()
+            val request = ImageRequest.Builder(this.context).data(url).target(this).build()
 
             imageLoader.enqueue(request)
         }
 
     }
-
 
     data class Coin(
         val symbol: String,
